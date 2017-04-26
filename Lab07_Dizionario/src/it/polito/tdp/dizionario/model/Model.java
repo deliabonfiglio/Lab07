@@ -1,8 +1,6 @@
 package it.polito.tdp.dizionario.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 import org.jgrapht.Graphs;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
@@ -11,13 +9,14 @@ import org.jgrapht.graph.SimpleGraph;
 import it.polito.tdp.dizionario.db.WordDAO;
 
 public class Model {
-	private UndirectedGraph<String, DefaultEdge> grafo = new SimpleGraph<String, DefaultEdge>(DefaultEdge.class);
+	private UndirectedGraph<String, DefaultEdge> grafo = null;
 	private List<String> vertici = null;
 	
 	private WordDAO wdao = new WordDAO();
 	private int dim=0;
 
 	public List<String> createGraph(int numeroLettere) {
+		grafo = new SimpleGraph<String, DefaultEdge>(DefaultEdge.class);
 		dim = numeroLettere;
 		vertici = new ArrayList<String>(wdao.getAllWordsFixedLength(dim));
 		
@@ -52,7 +51,7 @@ public class Model {
 		List<String> vicini = new ArrayList<String>(Graphs.neighborListOf(grafo, parolaInserita));
 		
 		System.out.format("\nNeighbours of %s: ", parolaInserita);
-		System.out.println(vicini);
+		System.out.println(vicini+"\n");
 		
 		return vicini;
 	}
@@ -63,7 +62,8 @@ public class Model {
 		 * e poi controllo se è ancora ==null allora richiamo createGraph
 		 * altrimenti cerco il grado massimo
 		 * 
-		 * la soluzione che ho scelto è di disattivare gli altri 2 bottoni se non viene prima premuto createGraph
+		 * la soluzione che ho scelto è di disattivare gli altri 2 bottoni 
+		 * se non viene prima premuto createGraph
 		 */
 		int maxDegree = grafo.degreeOf(vertici.get(0));
 		String result="";

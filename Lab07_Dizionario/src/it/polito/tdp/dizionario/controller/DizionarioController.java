@@ -1,9 +1,7 @@
 package it.polito.tdp.dizionario.controller;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import it.polito.tdp.dizionario.model.Model;
 import javafx.event.ActionEvent;
@@ -58,20 +56,19 @@ public class DizionarioController {
 			int dim = Integer.parseInt(inputNumeroLettere.getText());
 				
 			if(dim < 7){		
-				model.createGraph(dim);
+				List<String> grafo = new ArrayList<String>(model.createGraph(dim));
 				this.tuttoVisibile(true);
 					
-					txtResult.setText("Grafo Creato con successo!");	
-				} else {
-					txtResult.setText("Numero di lettere troppo grande, il tuo PC potrebbe bloccarsi.\nInserire un numero minore di 7!");
-				}
+				txtResult.setText("Grafo creato con successo!\n"+grafo);	
+			} else {
+				txtResult.setText("Numero di lettere troppo grande, il tuo PC potrebbe bloccarsi.\nInserire un numero minore di 7!");
+			}
 		} catch (RuntimeException re) {
 			txtResult.setText(re.getMessage());
 		}
 		
 	}
 //per ottenere il vertice del grafo con il grado massimo.
-	//visualizzare grado, il vertice e la lista dei suoi diretti vicini
 	@FXML
 	void doTrovaGradoMax(ActionEvent event) {	
 		try {
