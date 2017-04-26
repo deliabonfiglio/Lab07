@@ -56,14 +56,19 @@ public class DizionarioController {
 
 		try {
 			int dim = Integer.parseInt(inputNumeroLettere.getText());
-						
-			model.createGraph(dim);
-			this.tuttoVisibile(true);
-			
-			txtResult.setText("Grafo Creato con successo!");			
+				
+			if(dim < 7){		
+				model.createGraph(dim);
+				this.tuttoVisibile(true);
+					
+					txtResult.setText("Grafo Creato con successo!");	
+				} else {
+					txtResult.setText("Numero di lettere troppo grande, il tuo PC potrebbe bloccarsi.\nInserire un numero minore di 7!");
+				}
 		} catch (RuntimeException re) {
 			txtResult.setText(re.getMessage());
 		}
+		
 	}
 //per ottenere il vertice del grafo con il grado massimo.
 	//visualizzare grado, il vertice e la lista dei suoi diretti vicini

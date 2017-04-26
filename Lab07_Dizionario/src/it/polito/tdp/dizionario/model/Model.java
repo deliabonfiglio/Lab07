@@ -12,12 +12,14 @@ import it.polito.tdp.dizionario.db.WordDAO;
 
 public class Model {
 	private UndirectedGraph<String, DefaultEdge> grafo = new SimpleGraph<String, DefaultEdge>(DefaultEdge.class);
+	private List<String> vertici = null;
+	
 	private WordDAO wdao = new WordDAO();
 	private int dim=0;
 
 	public List<String> createGraph(int numeroLettere) {
 		dim = numeroLettere;
-		List<String> vertici = new ArrayList<String>(wdao.getAllWordsFixedLength(dim));
+		vertici = new ArrayList<String>(wdao.getAllWordsFixedLength(dim));
 		
 		//creo i vertici
 		for(String parola: vertici){
@@ -39,8 +41,7 @@ public class Model {
 		for(int i=0; i<dim; i++){
 				if(parola1.charAt(i)!=parola2.charAt(i))
 					cnt ++;				
-			}
-		
+			}		
 		if(cnt==1)
 			return true;
 		
@@ -64,14 +65,14 @@ public class Model {
 		 * 
 		 * la soluzione che ho scelto è di disattivare gli altri 2 bottoni se non viene prima premuto createGraph
 		 */
-		List<String> vertici = new ArrayList<String>(wdao.getAllWordsFixedLength(dim));
 		int maxDegree = grafo.degreeOf(vertici.get(0));
 		String result="";
 	
 		for(String vertex: vertici){
-				if(maxDegree < grafo.degreeOf(vertex))
+				if(maxDegree < grafo.degreeOf(vertex)){
 					maxDegree = grafo.degreeOf(vertex);
 					result = vertex;
+				}
 			}
 		result += "\ndi grado: "+maxDegree +"\nCon vicini: "+ this.displayNeighbours(result).toString();
 				//grado, il vertice e la lista dei suoi diretti vicini
