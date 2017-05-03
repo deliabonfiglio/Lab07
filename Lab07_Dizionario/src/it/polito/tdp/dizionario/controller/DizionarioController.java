@@ -14,7 +14,6 @@ import javafx.scene.text.Text;
 public class DizionarioController {
 
 	private Model model;
-	
 	@FXML
 	private ResourceBundle resources;
 	@FXML // fx:id="testo"
