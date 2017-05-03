@@ -5,6 +5,7 @@ import org.jgrapht.Graphs;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
+import org.jgrapht.traverse.BreadthFirstIterator;
 
 import it.polito.tdp.dizionario.db.WordDAO;
 
@@ -50,8 +51,8 @@ public class Model {
 	public List<String> displayNeighbours(String parolaInserita) {
 		List<String> vicini = new ArrayList<String>(Graphs.neighborListOf(grafo, parolaInserita));
 		
-		System.out.format("\nNeighbours of %s: ", parolaInserita);
-		System.out.println(vicini+"\n");
+		//System.out.format("\nNeighbours of %s: ", parolaInserita);
+		//System.out.println(vicini+"\n");
 		
 		return vicini;
 	}
@@ -80,4 +81,39 @@ public class Model {
 		System.out.println(result.toString());
 		return result;
 	}
+
+	public List<String> displayAllNeighbours(String parola){
+		List<String> visited = new ArrayList<String>();
+		
+		BreadthFirstIterator<String, DefaultEdge> bvf= new BreadthFirstIterator<>(grafo, parola);
+		
+		while(bvf.hasNext()){			
+			visited.add(bvf.next());
+		}
+		
+		System.out.println(visited.toString());
+		return visited;
+	}
+
+	public List<String> displayAllNeighboursIterative(String parola) {
+		Set<String> davisitare= new HashSet<String>();//nei nodi da visitare ogni volta metto i vicini del nodo
+		davisitare.add(parola);
+		
+		Set<String> visited = new HashSet<String>();
+		
+		while(!davisitare.isEmpty()){
+			String s = davisitare.iterator().next();
+			
+			visited.add(s);		
+			davisitare.remove(s);
+			
+			davisitare.addAll(Graphs.neighborListOf(grafo, s));
+				
+			davisitare.removeAll(visited);
+	
+		}
+
+		return new ArrayList<String>(visited);
+	}
+	
 }

@@ -33,6 +33,8 @@ public class DizionarioController {
 	private Button btnTrovaVicini;
 	@FXML
 	private Button btnTrovaGradoMax;
+    @FXML // fx:id="btnTrovaTuttiIVicini"
+    private Button btnTrovaTuttiIVicini; // Value injected by FXMLLoader
 
 	@FXML
 	void doReset(ActionEvent event) {
@@ -47,6 +49,7 @@ public class DizionarioController {
 		btnTrovaVicini.setVisible(valore);
 		btnTrovaGradoMax.setVisible(valore);
 		testo.setVisible(valore);
+		btnTrovaTuttiIVicini.setVisible(valore);
 	}
 
 	@FXML
@@ -95,6 +98,36 @@ public class DizionarioController {
 		}
 	}
 
+    @FXML
+    void doTrovaTuttiIVicini(ActionEvent event) {
+		try {
+			String parola = inputParola.getText();
+			List<String> vicini = new ArrayList<String>(model.displayAllNeighbours(parola));
+			List<String> visited = new ArrayList<String>(model.displayAllNeighboursIterative(parola));
+
+			txtResult.setText("Tutti i Vicini della parola inserita: \n"+ vicini.toString());
+			txtResult.appendText("\nTutti i Vicini con metodo iterativo: \n"+ visited.toString());
+			
+			if(controllaListe(vicini , visited))
+				txtResult.appendText("\nListe uguali");
+
+		} catch (RuntimeException re) {
+			txtResult.setText(re.getMessage());
+		}
+	}
+    
+    public boolean controllaListe(List<String> vicini , List<String> visited){
+    	boolean uguale =false;
+    	
+		for(String stemp: vicini){
+			for(String svis: visited){
+				if(stemp.equals(svis))
+					uguale=true;
+			}
+		}
+		return uguale;
+    }
+
 	@FXML
 	void initialize() {
 		assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Dizionario.fxml'.";
@@ -104,6 +137,7 @@ public class DizionarioController {
 		assert btnTrovaVicini != null : "fx:id=\"btnTrovaVicini\" was not injected: check your FXML file 'Dizionario.fxml'.";
         assert btnTrovaGradoMax != null : "fx:id=\"btnTrovaGradoMax\" was not injected: check your FXML file 'Dizionario.fxml'.";
         assert testo != null : "fx:id=\"testo\" was not injected: check your FXML file 'Dizionario.fxml'.";
+        assert btnTrovaTuttiIVicini != null : "fx:id=\"btnTrovaTuttiIVicini\" was not injected: check your FXML file 'Dizionario.fxml'.";
 
 	}
 
